@@ -12,6 +12,8 @@ document.body.appendChild ApplicationTemplate
     params.pickupCoin()
     sfx = new SoundEffect(params).generate()
 
+    console.log sfx.wav
+
     audio.src = sfx.dataURI
 
     audio.play()
