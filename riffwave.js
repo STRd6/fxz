@@ -1,5 +1,5 @@
 /*
- * RIFFWAVE.js v0.02 - Audio encoder for HTML5 <audio> elements.
+ * RIFFWAVE.js v0.03 - Audio encoder for HTML5 <audio> elements.
  * Copyright (C) 2011 Pedro Ladaria <pedro.ladaria at Gmail dot com>
  *
  * This program is free software; you can redistribute it and/or
