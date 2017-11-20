@@ -7,8 +7,8 @@ var sfxr = require("./sfxr.js");
 
 function dump(that, title) {
   if (title) console.log('\n' + title + '\n');
-  for (var i in that) 
-    if (typeof that[i] !== 'function') 
+  for (var i in that)
+    if (typeof that[i] !== 'function')
       console.log(i, that[i]);
 }
 
@@ -19,7 +19,7 @@ function diff(a, b, title) {
       if (b.hasOwnProperty(i)) {
         if (a[i] !== b[i])
           console.log('%', i, a[i], b[i])
-      } else 
+      } else
         console.log('<', i, a[i]);
     }
   }
@@ -65,7 +65,7 @@ diff(a, b)
 var x = 'random';
 
 var sound = new sfxr.SoundEffect(new sfxr.Knobs()[x]()).generate();
-require("fs").writeFile("./test.wav", new Buffer(sound.wav), 'binary', 
+require("fs").writeFile("./test.wav", new Buffer(sound.wav), 'binary',
                         function(err) {
                           if(err) {
                             sys.puts(err);

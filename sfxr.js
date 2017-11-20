@@ -1,17 +1,13 @@
-
 // Wave shapes
 var SQUARE = 0;
 var SAWTOOTH = 1;
 var SINE = 2;
 var NOISE = 3;
 
-
 // Playback volume
 var masterVolume = 1;
 
-
 var OVERSAMPLING = 8;
-
 
 var defaultKnobs = {
   shape: SQUARE, // SQUARE/SAWTOOTH/SINE/NOISE
@@ -30,8 +26,8 @@ var defaultKnobs = {
   vibratoRate:  10, // Hz
 
   arpeggioFactor: 1,   // multiple of frequency
-  arpeggioDelay:  0.1, // sec  
-  
+  arpeggioDelay:  0.1, // sec
+
   dutyCycle:      0.5, // proportion of wavelength
   dutyCycleSweep: 0,   // proportion/second
 
@@ -46,7 +42,7 @@ var defaultKnobs = {
 
   highPassFrequency: 0, // Hz
   highPassSweep:     0, // ^sec
-  
+
   gain: -10, // dB
 
   sampleRate: 44100, // Hz
@@ -88,14 +84,14 @@ Knobs.prototype.translate = function (ps) {
     this.frequencyMin = 0;
   this.enableFrequencyCutoff = (ps.p_freq_limit > 0);
   this.frequencySlide = 44100 * log(1 - cube(ps.p_freq_ramp) / 100, 0.5);
-  this.frequencySlideSlide = -cube(ps.p_freq_dramp) / 1000000 * 
+  this.frequencySlideSlide = -cube(ps.p_freq_dramp) / 1000000 *
     44100 * pow(2, 44101/44100);
 
   this.vibratoRate = 44100 * 10 / 64 * sqr(ps.p_vib_speed) / 100;
   this.vibratoDepth = ps.p_vib_strength / 2;
 
-  this.arpeggioFactor = 1 / ((ps.p_arp_mod >= 0) ? 
-                             1 - sqr(ps.p_arp_mod) * 0.9 : 
+  this.arpeggioFactor = 1 / ((ps.p_arp_mod >= 0) ?
+                             1 - sqr(ps.p_arp_mod) * 0.9 :
                              1 + sqr(ps.p_arp_mod) * 10);
   this.arpeggioDelay = ((ps.p_arp_speed === 1) ? 0 :
                 Math.floor(sqr(1 - ps.p_arp_speed) * 20000 + 32) / 44100);
@@ -106,7 +102,7 @@ Knobs.prototype.translate = function (ps) {
   this.retriggerRate = 44100 / ((ps.p_repeat_speed === 0) ? 0 :
                        Math.floor(sqr(1 - ps.p_repeat_speed) * 20000) + 32);
 
-  this.flangerOffset = sign(ps.p_pha_offset) * 
+  this.flangerOffset = sign(ps.p_pha_offset) *
     sqr(ps.p_pha_offset) * 1020 / 44100;
   this.flangerSweep = sign(ps.p_pha_ramp) * sqr(ps.p_pha_ramp);
 
@@ -117,7 +113,7 @@ Knobs.prototype.translate = function (ps) {
   this.lowPassSweep = pow(1 + ps.p_lpf_ramp / 10000, 44100);
   this.lowPassResonance = 1 - (5 / (1 + sqr(ps.p_lpf_resonance) * 20)) / 9;
 
-  this.highPassFrequency = Math.round(OVERSAMPLING * 44100 * 
+  this.highPassFrequency = Math.round(OVERSAMPLING * 44100 *
                                       flurp(sqr(ps.p_hpf_freq) / 10));
   this.highPassSweep = pow(1 + ps.p_hpf_ramp * 0.0003, 44100);
 
@@ -127,7 +123,7 @@ Knobs.prototype.translate = function (ps) {
   this.sampleSize = ps.sample_size;
 
   return this;
-}
+};
 
 // Sound generation parameters are on [0,1] unless noted SIGNED & thus
 // on [-1,1]

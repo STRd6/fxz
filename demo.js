@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>jsfxr</title>
-
-<meta charset="utf-8" >
-
-<script src="riffwave.js"></script>
-<script src="sfxr.js"></script>
-<link type="text/css" href="jquery/jquery-ui.css" rel="Stylesheet" />
-<script type="text/javascript" src="jquery/jquery.min.js"></script>
-<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
-
-<script>
 
 var PARAMS;
 var SOUND;
@@ -144,16 +130,16 @@ $(function() {
     p_freq_ramp:  function (v) { 
       return (44100*Math.log(v)/Math.log(0.5)).toPrecision(4) + ' 8va/sec'; },
     p_freq_dramp: function (v) { 
-      return (v*44100 / Math.pow(2, -44101./44100)).toPrecision(4) + 
+      return (v*44100 / Math.pow(2, -44101/44100)).toPrecision(4) + 
         ' 8va/sec^2?'; },
 
     p_vib_speed:    function (v) { return v === 0 ? 'OFF' : 
-                                   (441000/64. * v).toPrecision(4) + ' Hz'},
+                                   (441000/64 * v).toPrecision(4) + ' Hz'},
     p_vib_strength: function (v) { return v === 0 ? 'OFF' : 
                                    '&plusmn; ' + (v*100).toPrecision(4) + '%' },
 
     p_arp_mod:   function (v) { return ((v === 1) ? 'OFF' : 
-                                        'x ' + (1./v).toPrecision(4)) },
+                                        'x ' + (1/v).toPrecision(4)) },
     p_arp_speed: function (v) { return (v === 0 ? 'OFF' :
                                         (v / 44100).toPrecision(4) +' sec') },
 
@@ -170,10 +156,10 @@ $(function() {
                  (1000*v).toPrecision(4) + ' msec/sec' },
 
     p_lpf_freq:   function (v) { 
-      return (v === .1) ? 'OFF' : Math.round(8 * 44100 * v / (1-v)) + ' Hz'; },
+      return (v === 0.1) ? 'OFF' : Math.round(8 * 44100 * v / (1-v)) + ' Hz'; },
     p_lpf_ramp:  function (v) {  if (v === 1) return 'OFF';
       return Math.pow(v, 44100).toPrecision(4) + ' ^sec'; },
-    p_lpf_resonance: function (v) { return (100*(1-v*.11)).toPrecision(4)+'%';},
+    p_lpf_resonance: function (v) { return (100*(1-v*0.11)).toPrecision(4)+'%';},
 
     p_hpf_freq:   function (v) { 
       return (v === 0) ? 'OFF' : Math.round(8 * 44100 * v / (1-v)) + ' Hz'; },
@@ -244,272 +230,3 @@ function convert(control, v) {
     $('label[for="' + control.id + '"]').html(v);
   }
 }
-
-</script>
-
-<style>
-
-button, p, #sound_vol {
-  width: 160px;
-}
-
-#sound_vol {
-  margin-top: 4px;
-}
-
-#shape label {
-  width: 80px;
-}
-
-#hz label {
-  width: 40px;
-}
-
-#bits label {
-  width: 80px;
-}
-
-#wav {
-  font-weight: bold;
-}
-
-
-div {
-  display: inline-block;
-}
-
-h1 {
-  padding-right: 1em;
-  padding-top: 0;
-  margin-top: 0;
-}
-
-body {
-  padding-left: 2em;
-}
-
-.slider {
-  width: 120px;
-}
-
-.ui-widget-content .ui-state-default {
-  border-color: #F58400;
-}
-
-* {
-  font: 10pt Helvetica;
-}
-
-h1 { font-size: 24pt; }
-h2 { font-size: 12pt; }
-
-button, input, label {
-  font-size: 10px;
-}
-
-div {
-  vertical-align: top;
-}
-
-th {
-  padding-left: 1em;
-  text-align: left;
-}
-
-hr {
-  font-size: 3px;
-}
-
-#demo-frame > div.demo { padding: 10px !important; }
-
-#stats td {
-  text-align: right;
-}
-
-#stats {
-  width: 80%;
-}
-
-a {
-  text-decoration: none;
-  color: #0000ff;
-}
-
-#uncopy {
-  margin-top: -4px;
-  border: solid 1px #0000ff;
-  border-radius: 10px;
-  width: 8px;
-  height: 8px;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 6px;
-  font-size: 10px;
-}
-
-#generators button {
-  margin-bottom: 2px;
-}
-
-</script>
-
-</style>
-</head>
-
-<body>
-
-<div>
-<h1>jsfxr</h1>
-</div>
-
-<div id="generators">
-  <h2>Generator</h2>
-  <button onclick="gen('pickupCoin')">Pickup/coin</button> <br/>
-  <button onclick="gen('laserShoot')">Laser/shoot</button> <br/>
-  <button onclick="gen('explosion')">Explosion</button> <br/>
-  <button onclick="gen('powerUp')">Powerup</button> <br/>
-  <button onclick="gen('hitHurt')">Hit/hurt</button> <br/>
-  <button onclick="gen('jump')">Jump</button> <br/>
-  <button onclick="gen('blipSelect')">Blip/select</button> <br/>
-  <button onclick="gen('random')">Random</button> <br/>
-  <button onclick="gen('tone')">Tone</button> <br/>
-  <br/>
-  <br/>
-  <br/>
-  <button onclick="mut()">Mutate</button> <br/>
-</div>
-
-<div class="demo">
-<h2>Manual Settings</h2>
-<form>
-  <div id="shape">
-    <input type="radio" id="square" value=0 name="shape" />
-      <label for="square">Square</label>
-    <input type="radio" id="sawtooth" value=1 name="shape" checked="checked" />
-      <label for="sawtooth">Sawtooth</label>
-    <input type="radio" id="sine" value=2 name="shape" />
-      <label for="sine">Sine</label>
-    <input type="radio" id="noise" value=3 name="shape" />
-      <label for="noise">Noise</label>
-  </div>
-</form>
-
-<br/>
-
-<table>
-  <tr><th colspan=2>Envelope
-  <tr><td><div class="slider" id="p_env_attack"></div> <th>Attack time
-  <tr><td><div class="slider" id="p_env_sustain"></div> <th>Sustain time
-  <tr><td><div class="slider" id="p_env_punch"></div> <th>Sustain punch
-  <tr><td><div class="slider" id="p_env_decay"></div> <th>Decay time
-  <tr><th colspan=2>Frequency
-  <tr><td><div class="slider" id="p_base_freq"></div> <th>Start frequency
-  <tr><td><div class="slider" id="p_freq_limit"></div> <th>Min freq. cutoff
-  <tr><td><div class="signed slider" id="p_freq_ramp"></div> <th>Slide
-  <tr><td><div class="signed slider" id="p_freq_dramp"></div> <th>Delta slide
-  <tr><th colspan=2>Vibrato
-  <tr><td><div class="slider" id="p_vib_strength"></div> <th>Depth
-  <tr><td><div class="slider" id="p_vib_speed"></div> <th>Speed
-  <tr><th colspan=2>Arpeggiation
-  <tr><td><div class="signed slider" id="p_arp_mod"></div> <th>Frequency mult
-  <tr><td><div class="slider" id="p_arp_speed"></div> <th>Change speed
-  <tr><th colspan=2>Duty Cycle                           
-  <tr><td><div class="slider" id="p_duty"></div> <th>Duty cycle
-  <tr><td><div class="signed slider" id="p_duty_ramp"></div> <th>Sweep
-  <tr><th colspan=2>Retrigger
-  <tr><td><div class="slider" id="p_repeat_speed"></div> <th>Rate
-  <tr><th colspan=2>Flanger
-  <tr><td><div class="signed slider" id="p_pha_offset"></div> <th>Offset
-  <tr><td><div class="signed slider" id="p_pha_ramp"></div> <th>Sweep
-  <tr><th colspan=2>Low-Pass Filter
-  <tr><td><div class="slider" id="p_lpf_freq"></div> <th>Cutoff frequency
-  <tr><td><div class="signed slider" id="p_lpf_ramp"></div> <th>Cutoff sweep
-  <tr><td><div class="slider" id="p_lpf_resonance"></div> <th>Resonance
-  <tr><th colspan=2>High-Pass Filter
-  <tr><td><div class="slider" id="p_hpf_freq"></div> <th>Cutoff frequency
-  <tr><td><div class="signed slider" id="p_hpf_ramp"></div> <th>Cutoff sweep
-</table>
-
-
-</div>
-
-<div>
-  <h2>Sound</h2>
-  <button onclick="play(true)">Play</button> <br/>
-
-  <p>
-To save the sound, right- or control-click the following link, select 
-"Save As..." and choose a name with a ".wav" extension. <br/>
-  <br/>
-  <a id="wav">sfx.wav</a> <br/>
-  <!-- <a id="sfx">sfx.wav</a><br/> -->
-
-  <table id="stats">
-  <tr><th>File size:<td id="file_size">
-  <tr><th>Samples:<td id="num_samples">
-  <tr><th>Clipped:<td id="clipping">
-  </table>
-  </p>
-
-<form>
-  Gain <label for="sound_vol"></label><br/>
-  <div class="slider" id="sound_vol"></div> <br/>
-  <br/>
-
-  Sample Rate (Hz) <br/>
-  <div id="hz">
-    <input type="radio" id="44100" value=44100 name="hz" checked="checked"/>
-      <label for="44100">44k</label>
-    <input type="radio" id="22050" value=22050 name="hz" />
-      <label for="22050">22k</label>
-    <input type="radio" id="11025" value=11025 name="hz" />
-      <label for="11025">11k</label>
-    <input type="radio" id="5512" value=5512 name="hz" />
-      <label for="5512">6k</label>
-  </div>
-
-  <br/>
-  <br/>
-  Sample size
-  <br/>
-  <div id="bits">
-    <input type="radio" id="16" value=16 name="bits"/>
-      <label for="16">16 bit</label>
-    <input type="radio" id="8" value=8 name="bits" checked="checked"/>
-      <label for="8">8 bit</label>
-  </div>
-</form>
-  
-<br/>
-<br/>
-<br/>
-
-<hr/>
-<p id="links">
-<a id="uncopy" href="UNLICENSE">¢</a> 2011
-<a href="http://fredricksen.net/">Eric Fredricksen</a>
-<br/>
-  <a href="https://github.com/grumdrig/jsfxr" id="source">(Source code)</a>
-<br/>
-<br/>
- (Port of 
- <a href="http://www.drpetter.se/project_sfxr.html" id="original">sfxr</a> 
-by DrPetter)
-</p>
-
-
-
-</div>
-
-<br/>
-<br/>
-
-
-<br/>
-
-
-
-
-</body>
-</html>
