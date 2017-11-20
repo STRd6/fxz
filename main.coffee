@@ -7,11 +7,36 @@ params = new Params
 
 audio = document.createElement "audio"
 
+createAndPlay = (type) ->
+  params = new Params
+  params[type]()
+
+  sfx = new SoundEffect(params).generate()
+
+  audio.src = sfx.dataURI
+  audio.play()
+
 document.body.appendChild ApplicationTemplate
-  generate: ->
-    params.pickupCoin()
-    sfx = new SoundEffect(params).generate()
+  coin: ->
+    createAndPlay("pickupCoin")
 
-    audio.src = sfx.dataURI
+  laser: ->
+    createAndPlay("laserShoot")
 
-    audio.play()
+  explosion: ->
+    createAndPlay("explosion")
+
+  powerUp: ->
+    createAndPlay("powerUp")
+
+  hit: ->
+    createAndPlay("hitHurt")
+
+  jump: ->
+    createAndPlay("jump")
+
+  blip: ->
+    createAndPlay("blipSelect")
+
+  tone: ->
+    createAndPlay("tone")

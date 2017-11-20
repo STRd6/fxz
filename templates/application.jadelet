@@ -1,2 +1,9 @@
 application
-  button(click=@generate) Generate!
+  button(click=@coin) Coin
+  button(click=@laser) Laser
+  button(click=@explosion) Explosion
+  button(click=@powerUp) Power Up
+  button(click=@hit) Hit
+  button(click=@jump) Jump
+  button(click=@blip) Blip
+  button(click=@tone) Tone

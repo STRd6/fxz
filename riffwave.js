@@ -18,7 +18,7 @@
  * 0.01 - First release
  * 0.02 - New faster base64 encoding
  * 0.03 - Blob URLs
- * 
+ *
  */
 
 var RIFFWAVE = function(data) {
