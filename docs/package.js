@@ -185,12 +185,6 @@
   window.require = Require.generateFor(pkg);
 })({
   "source": {
-    "README.rst": {
-      "path": "README.rst",
-      "content": "jsfxr\n=====\n\nQuick 'n' easy game sound effects generator.\n\nA port of sfxr: http://www.drpetter.se/project_sfxr.html to HTML5.\n\n\nLinks\n-----\n\nApplication:  http://github.grumdrig.com/jsfxr/\n\nSource code:  https://github.com/grumdrig/jsfxr/\n\n\nThanks\n------\n\n riffwave.js: http://www.codebase.es/riffwave/\n\n jquery-ui:   http://jqueryui.com/\n",
-      "mode": "100644",
-      "type": "blob"
-    },
     "UNLICENSE": {
       "path": "UNLICENSE",
       "content": "This is free and unencumbered software released into the public\ndomain.\n\nAnyone is free to copy, modify, publish, use, compile, sell, or\ndistribute this software, either in source code form or as a compiled\nbinary, for any purpose, commercial or non-commercial, and by any\nmeans.\n\nIn jurisdictions that recognize copyright laws, the author or authors\nof this software dedicate any and all copyright interest in the\nsoftware to the public domain. We make this dedication for the benefit\nof the public at large and to the detriment of our heirs and\nsuccessors. We intend this dedication to be an overt act of\nrelinquishment in perpetuity of all present and future rights to this\nsoftware under copyright law.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR\nOTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\nARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\nOTHER DEALINGS IN THE SOFTWARE.\n\nFor more information, please refer to <http://unlicense.org/>\n",
@@ -233,6 +227,11 @@
     "templates/application.jadelet": {
       "path": "templates/application.jadelet",
       "content": "application\n  button(click=@generate) Generate!\n",
+      "mode": "100644"
+    },
+    "README.md": {
+      "path": "README.md",
+      "content": "SFXZ\n====\n\nA recreation of sfxr. Wish me luck!\n",
       "mode": "100644"
     }
   },
