@@ -5,16 +5,26 @@ global.SFXR = require "./sfxr"
 
 params = new Params
 
-audio = document.createElement "audio"
+audioContext = new AudioContext
 
 createAndPlay = (type) ->
   params = new Params
   params[type]()
 
-  sfx = new SoundEffect(params).generate()
+  # Generate audio data
+  sfx = new SoundEffect(params)
+  float32Array = sfx.generate()
 
-  audio.src = sfx.dataURI
-  audio.play()
+  # Create buffer
+  audioBuffer = audioContext.createBuffer(1, float32Array.length, sfx.sampleRate)
+  channelData = audioBuffer.getChannelData(0)
+  channelData.set float32Array
+
+  # Play buffer
+  node = new AudioBufferSourceNode audioContext,
+    buffer: audioBuffer
+  node.connect audioContext.destination
+  node.start()
 
 document.body.appendChild ApplicationTemplate
   coin: ->

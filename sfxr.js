@@ -327,10 +327,7 @@ Params.prototype.random = function () {
 
 
 function SoundEffect(ps) {
-  if (ps.oldParams)
-    this.initFromUI(ps);
-  else
-    this.init(ps);
+  this.initFromUI(ps);
 }
 
 
@@ -408,76 +405,12 @@ SoundEffect.prototype.initFromUI = function (ps) {
   console.log(this);
 };
 
-
-SoundEffect.prototype.init = function (ps) {
-  //
-  // Convert user-facing parameter values to units usable by the sound
-  // generator
-  //
-
-  this.initForRepeat = function() {
-    this.elapsedSinceRepeat = 0;
-
-    this.period = OVERSAMPLING * 44100 / ps.frequency;
-    this.periodMax = OVERSAMPLING * 44100 / ps.frequencyMin;
-    this.enableFrequencyCutoff = (ps.frequencyMin > 0);
-    this.periodMult = Math.pow(.5, ps.frequencySlide / 44100);
-    this.periodMultSlide = ps.frequencySlideSlide * Math.pow(2, -44101/44100)
-      / 44100;
-
-    this.dutyCycle = ps.dutyCycle;
-    this.dutyCycleSlide = ps.dutyCycleSweep / (OVERSAMPLING * 44100);
-
-    this.arpeggioMultiplier = 1 / ps.arpeggioFactor;
-    this.arpeggioTime = ps.arpeggioDelay * 44100;
-  }
-  this.initForRepeat();  // First time through, this is a bit of a misnomer
-
-  // Waveform shape
-  this.waveShape = ps.shape;
-
-  // Low pass filter
-  this.fltw = ps.lowPassFrequency / (OVERSAMPLING * 44100 + ps.lowPassFrequency);
-  this.enableLowPassFilter = ps.lowPassFrequency < 44100;
-  this.fltw_d = Math.pow(ps.lowPassSweep, 1/44100);
-  this.fltdmp = (1 - ps.lowPassResonance) * 9 * (.01 + this.fltw);
-
-  // High pass filter
-  this.flthp = ps.highPassFrequency / (OVERSAMPLING * 44100 + ps.highPassFrequency);
-  this.flthp_d = Math.pow(ps.highPassSweep, 1/44100);
-
-  // Vibrato
-  this.vibratoSpeed = ps.vibratoRate * 64 / 44100 / 10;
-  this.vibratoAmplitude = ps.vibratoDepth;
-
-  // Envelope
-  this.envelopeLength = [
-    Math.floor(ps.attack * 44100),
-    Math.floor(ps.sustain * 44100),
-    Math.floor(ps.decay * 44100)
-  ];
-  this.envelopePunch = ps.punch;
-
-  // Flanger
-  this.flangerOffset = ps.flangerOffset * 44100;
-  this.flangerOffsetSlide = ps.flangerSweep;
-
-  // Repeat
-  this.repeatTime = ps.retriggerRate ? 1 / (44100 * ps.retriggerRate) : 0;
-
-  // Gain
-  this.gain = Math.sqrt(Math.pow(10, ps.gain/10));
-
-  this.sampleRate = ps.sampleRate;
-  this.bitsPerChannel = ps.sampleSize;
-};
-
-
 SoundEffect.prototype.generate = function () {
   var fltp = 0;
   var fltdp = 0;
   var fltphp = 0;
 
+  // TODO: Deterministic output! Don't randomize noise buffer here
   var noise_buffer = Array(32);
   for (var i = 0; i < 32; ++i)
     noise_buffer[i] = Math.random() * 2 - 1;
@@ -638,38 +571,10 @@ SoundEffect.prototype.generate = function () {
     sample = sample / OVERSAMPLING * masterVolume;
     sample *= this.gain;
 
-    if (this.bitsPerChannel === 8) {
-      // Rescale [-1, 1) to [0, 256)
-      sample = Math.floor((sample + 1) * 128);
-      if (sample > 255) {
-        sample = 255;
-        ++num_clipped;
-      } else if (sample < 0) {
-        sample = 0;
-        ++num_clipped;
-      }
-      buffer.push(sample);
-    } else {
-      // Rescale [-1, 1) to [-32768, 32768)
-      sample = Math.floor(sample * (1<<15));
-      if (sample >= (1<<15)) {
-        sample = (1 << 15)-1;
-        ++num_clipped;
-      } else if (sample < -(1<<15)) {
-        sample = -(1 << 15);
-        ++num_clipped;
-      }
-      buffer.push(sample & 0xFF);
-      buffer.push((sample >> 8) & 0xFF);
-    }
+    buffer.push(sample);
   }
 
-  var wave = new RIFFWAVE();
-  wave.header.sampleRate = this.sampleRate;
-  wave.header.bitsPerSample = this.bitsPerChannel;
-  wave.Make(buffer);
-  wave.clipping = num_clipped;
-  return wave;
+  return new Float32Array(buffer)
 };
 
 // For node.js
