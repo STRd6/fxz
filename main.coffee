@@ -1,7 +1,7 @@
 ApplicationTemplate = require "./templates/application"
-global.SFXR = require "./sfxr"
 
-{Params, SoundEffect} = SFXR
+Params = require "./params"
+SoundEffect = require "./sfx"
 
 params = new Params
 
@@ -13,12 +13,7 @@ createAndPlay = (type) ->
 
   # Generate audio data
   sfx = new SoundEffect(params)
-  float32Array = sfx.generate()
-
-  # Create buffer
-  audioBuffer = audioContext.createBuffer(1, float32Array.length, sfx.sampleRate)
-  channelData = audioBuffer.getChannelData(0)
-  channelData.set float32Array
+  audioBuffer = sfx.generate(audioContext)
 
   # Play buffer
   node = new AudioBufferSourceNode audioContext,
