@@ -1,8 +1,5 @@
+// Synthesize an AudioBuffer from the param data
 module.exports = function(ps, audioContext) {
-  //
-  // Convert user-facing parameter values to units usable by the sound
-  // generator
-  //
   var m = Math;
   var floor = m.floor,
     pow = m.pow,
@@ -15,9 +12,9 @@ module.exports = function(ps, audioContext) {
     NOISE = 3,
     OVERSAMPLING = 8,
     sampleRate = 44100;
-  
+
   var i,
-    elapsedSinceRepeat, 
+    elapsedSinceRepeat,
     period,
     periodMax,
     enableFrequencyCutoff,
@@ -78,10 +75,10 @@ module.exports = function(ps, audioContext) {
 
   // Flanger
   var flangerOffset = pow(ps.p_pha_offset, 2) * 1020;
-  if (ps.p_pha_offset < 0) 
+  if (ps.p_pha_offset < 0)
     flangerOffset = -flangerOffset;
   var flangerOffsetSlide = pow(ps.p_pha_ramp, 2) * 1;
-  if (ps.p_pha_ramp < 0) 
+  if (ps.p_pha_ramp < 0)
     flangerOffsetSlide = -flangerOffsetSlide;
 
   // Repeat
@@ -143,14 +140,14 @@ module.exports = function(ps, audioContext) {
       rfperiod = period * (1 + m.sin(vibratoPhase) * vibratoAmplitude);
     }
     var iperiod = floor(rfperiod);
-    if (iperiod < OVERSAMPLING) 
+    if (iperiod < OVERSAMPLING)
       iperiod = OVERSAMPLING;
 
     // Square wave duty cycle
     dutyCycle += dutyCycleSlide;
-    if (dutyCycle < 0) 
+    if (dutyCycle < 0)
       dutyCycle = 0;
-    if (dutyCycle > 0.5) 
+    if (dutyCycle > 0.5)
       dutyCycle = 0.5;
 
     // Volume envelope
@@ -172,7 +169,7 @@ module.exports = function(ps, audioContext) {
     // Flanger step
     flangerOffset += flangerOffsetSlide;
     var iphase = abs(floor(flangerOffset));
-    if (iphase > 1023) 
+    if (iphase > 1023)
       iphase = 1023;
 
     if (flthp_d !== 0) {
@@ -251,12 +248,9 @@ module.exports = function(ps, audioContext) {
     buffer.push(sample);
   }
 
-  var float32Array = new Float32Array(buffer);
-
   // Create buffer
-  var audioBuffer = audioContext.createBuffer(1, float32Array.length, sampleRate);
-  var channelData = audioBuffer.getChannelData(0);
-  channelData.set(float32Array);
+  var audioBuffer = audioContext.createBuffer(1, buffer.length, sampleRate);
+  audioBuffer.getChannelData(0).set(new Float32Array(buffer));
 
   return audioBuffer;
 };
