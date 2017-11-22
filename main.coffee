@@ -12,8 +12,7 @@ createAndPlay = (type) ->
   params[type]()
 
   # Generate audio data
-  sfx = new SoundEffect(params)
-  audioBuffer = sfx.generate(audioContext)
+  audioBuffer = SoundEffect(params, audioContext)
 
   # Play buffer
   node = new AudioBufferSourceNode audioContext,
