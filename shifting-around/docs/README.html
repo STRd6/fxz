@@ -45,6 +45,165 @@
 <li>An embeddable synthesizer in &lt; 1kb js (minified and gzipped)</li>
 <li>A binary format for saving and loading effects in ~100 bytes</li>
 </ul>
+<p>SFXZ Binary Format Specification</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Size</th>
+<th>Type</th>
+<th>Field</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>ascii</td>
+<td>Magic Number</td>
+<td>&#39;fxz&#39;</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>uint8</td>
+<td>version</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>uint8</td>
+<td>wave shape</td>
+<td>0-3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>-</td>
+<td>unused</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4</td>
+<td>float32</td>
+<td>attack time</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>12</td>
+<td>4</td>
+<td>float32</td>
+<td>sustain time</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>16</td>
+<td>4</td>
+<td>float32</td>
+<td>sustain punch</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>20</td>
+<td>4</td>
+<td>float32</td>
+<td>decay time</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>24</td>
+<td>4</td>
+<td>float32</td>
+<td>start frequency</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>28</td>
+<td>4</td>
+<td>float32</td>
+<td>frequency cutoff</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>32</td>
+<td>4</td>
+<td>float32</td>
+<td>frequency slide</td>
+<td>[-1,1]</td>
+</tr>
+<tr>
+<td>36</td>
+<td>4</td>
+<td>float32</td>
+<td>delta slide</td>
+<td>[-1,1]</td>
+</tr>
+<tr>
+<td>40</td>
+<td>4</td>
+<td>float32</td>
+<td>vibrato depth</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>44</td>
+<td>4</td>
+<td>float32</td>
+<td>vibrato speed</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>48</td>
+<td>4</td>
+<td>float32</td>
+<td>arp amount</td>
+<td>[-1,1]</td>
+</tr>
+<tr>
+<td>52</td>
+<td>4</td>
+<td>float32</td>
+<td>arp change speed</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>56</td>
+<td>4</td>
+<td>float32</td>
+<td>Square duty</td>
+<td>[0,1]</td>
+</tr>
+<tr>
+<td>60</td>
+<td>4</td>
+<td>float32</td>
+<td>Duty sweep</td>
+<td>[-1,1]</td>
+</tr>
+<tr>
+<td>64</td>
+<td>4</td>
+<td>float32</td>
+<td>Repeat speed</td>
+<td>[0,1]</td>
+</tr>
+</tbody>
+</table>
+<p>  // Flanger
+  this.flangerOffset = 0;   // Flanger offset (SIGNED)
+  this.flangerSweep = 0;     // Flanger sweep (SIGNED)</p>
+<p>  // Low-pass filter
+  this.lpf = 1;     // Low-pass filter cutoff
+  this.lpfSweep = 0;     // Low-pass filter cutoff sweep (SIGNED)
+  this.lpfResonance = 0;// Low-pass filter resonance
+  // High-pass filter
+  this.hpf = 0;     // High-pass filter cutoff
+  this.hpfSweep = 0;     // High-pass filter cutoff sweep (SIGNED)</p>
+<p>  // Sample parameters
+  this.vol = 0.5;</p>
 <h2 id="status">Status</h2>
 
   </div>
