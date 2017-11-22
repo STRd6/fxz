@@ -28,6 +28,8 @@ createAndPlay = (type) ->
   buf = Serializer.serialize(params)
   console.log new Uint8Array(buf)
 
+  console.log Serializer.deserialize(buf, new Params)
+
 document.body.appendChild ApplicationTemplate
   coin: ->
     createAndPlay("pickupCoin")

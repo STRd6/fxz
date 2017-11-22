@@ -21,9 +21,7 @@ module.exports =
 
     return buffer
 
-  deserialize: (arrayBuffer, params) ->
-    buffer = new ArrayBuffer(100)
-
+  deserialize: (buffer, params) ->
     dataView = new DataView(buffer)
 
     Object.keys(params).forEach (key, i) ->
