@@ -1,0 +1,6 @@
+name: "SFXZ"
+version: "0.3.0"
+entryPoint: "sfxz"
+publish:
+  s3:
+    basePath: "public/danielx.net"
