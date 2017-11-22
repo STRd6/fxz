@@ -1,4 +1,4 @@
-function SoundEffect(ps, audioContext) {
+module.exports = function(ps, audioContext) {
   //
   // Convert user-facing parameter values to units usable by the sound
   // generator
@@ -6,7 +6,6 @@ function SoundEffect(ps, audioContext) {
   var m = Math;
   var floor = m.floor,
     pow = m.pow,
-    exp = m.exp,
     abs = m.abs,
     random = m.random;
 
@@ -14,7 +13,8 @@ function SoundEffect(ps, audioContext) {
     SAWTOOTH = 1,
     SINE = 2,
     NOISE = 3,
-    OVERSAMPLING = 8;
+    OVERSAMPLING = 8,
+    sampleRate = 44100;
   
   var i,
     elapsedSinceRepeat, 
@@ -28,7 +28,7 @@ function SoundEffect(ps, audioContext) {
     arpeggioMultiplier,
     arpeggioTime;
 
-  var initForRepeat = function() {
+  function initForRepeat() {
     elapsedSinceRepeat = 0;
 
     period = 100 / (ps.p_base_freq * ps.p_base_freq + 0.001);
@@ -47,7 +47,7 @@ function SoundEffect(ps, audioContext) {
     arpeggioTime = floor(pow(1 - ps.p_arp_speed, 2) * 20000 + 32);
     if (ps.p_arp_speed === 1)
       arpeggioTime = 0;
-  };
+  }
 
   initForRepeat();
 
@@ -89,10 +89,7 @@ function SoundEffect(ps, audioContext) {
   if (ps.p_repeat_speed === 0)
     repeatTime = 0;
 
-  var gain = exp(ps.sound_vol) - 1;
-
-  var sampleRate = ps.sample_rate;
-  var bitsPerChannel = ps.sample_size;
+  var gain = pow(2, ps.sound_vol) - 1;
 
   var fltp = 0;
   var fltdp = 0;
@@ -117,10 +114,6 @@ function SoundEffect(ps, audioContext) {
   var num_clipped = 0;
 
   var buffer = [];
-
-  var sample_sum = 0;
-  var num_summed = 0;
-  var summands = floor(44100 / sampleRate);
 
   for(var t = 0; ; ++t) {
 
@@ -182,7 +175,7 @@ function SoundEffect(ps, audioContext) {
     if (iphase > 1023) 
       iphase = 1023;
 
-    if (flthp_d != 0) {
+    if (flthp_d !== 0) {
       flthp *= flthp_d;
       if (flthp < 0.00001)
         flthp = 0.00001;
@@ -252,16 +245,6 @@ function SoundEffect(ps, audioContext) {
       sample += sub_sample * env_vol;
     }
 
-    // Accumulate samples appropriately for sample rate
-    sample_sum += sample;
-    if (++num_summed >= summands) {
-      num_summed = 0;
-      sample = sample_sum / summands;
-      sample_sum = 0;
-    } else {
-      continue;
-    }
-
     sample = sample / OVERSAMPLING;
     sample *= gain;
 
@@ -277,5 +260,3 @@ function SoundEffect(ps, audioContext) {
 
   return audioBuffer;
 };
-
-module.exports = SoundEffect;

@@ -12,8 +12,6 @@ var pow = Math.pow;
 // Sound generation parameters are on [0,1] unless noted SIGNED & thus
 // on [-1,1]
 function Params() {
-  this.oldParams = true;  // Note what structure this is
-
   // Wave shape
   this.wave_type = SQUARE;
 
@@ -57,8 +55,6 @@ function Params() {
 
   // Sample parameters
   this.sound_vol = 0.5;
-  this.sample_rate = 44100;
-  this.sample_size = 8;
 }
 
 

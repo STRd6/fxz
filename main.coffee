@@ -3,6 +3,8 @@ ApplicationTemplate = require "./templates/application"
 Params = require "./params"
 SoundEffect = require "./sfx"
 
+Serializer = require "./serializer"
+
 params = new Params
 
 audioContext = new AudioContext
@@ -19,6 +21,12 @@ createAndPlay = (type) ->
     buffer: audioBuffer
   node.connect audioContext.destination
   node.start()
+
+  dat = JSON.stringify(params)
+  console.log dat.length, dat
+
+  buf = Serializer.serialize(params)
+  console.log new Uint8Array(buf)
 
 document.body.appendChild ApplicationTemplate
   coin: ->
