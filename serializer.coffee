@@ -12,7 +12,7 @@ module.exports =
           dataView.setUint8(n, s.charCodeAt(0))
         # version
         dataView.setUint8(3, 1)
-        # byte 4 wave_type
+        # byte 4 shape
         dataView.setUint8(4, param)
         # bytes 5, 6, 7 unused for now
       else
@@ -35,7 +35,7 @@ module.exports =
         version = dataView.getUint8(3)
         if version != 1
           throw new Error "Unknown version '#{version}': expected 1"
-        # byte 4 wave_type
+        # byte 4 shape
         params[key] = dataView.getUint8(4)
         # bytes 5, 6, 7 unused for now
       else

@@ -28,65 +28,65 @@ module.exports = function(ps, audioContext) {
   function initForRepeat() {
     elapsedSinceRepeat = 0;
 
-    period = 100 / (ps.p_base_freq * ps.p_base_freq + 0.001);
-    periodMax = 100 / (ps.p_freq_limit * ps.p_freq_limit + 0.001);
-    enableFrequencyCutoff = (ps.p_freq_limit > 0);
-    periodMult = 1 - pow(ps.p_freq_ramp, 3) * 0.01;
-    periodMultSlide = -pow(ps.p_freq_dramp, 3) * 0.000001;
+    period = 100 / (ps.freq * ps.freq + 0.001);
+    periodMax = 100 / (ps.freqLimit * ps.freqLimit + 0.001);
+    enableFrequencyCutoff = (ps.freqLimit > 0);
+    periodMult = 1 - pow(ps.freqSlide, 3) * 0.01;
+    periodMultSlide = -pow(ps.freqSlideDelta, 3) * 0.000001;
 
-    dutyCycle = 0.5 - ps.p_duty * 0.5;
-    dutyCycleSlide = -ps.p_duty_ramp * 0.00005;
+    dutyCycle = 0.5 - ps.duty * 0.5;
+    dutyCycleSlide = -ps.dutySweep * 0.00005;
 
-    if (ps.p_arp_mod >= 0)
-      arpeggioMultiplier = 1 - pow(ps.p_arp_mod, 2) * 0.9;
+    if (ps.arpMod >= 0)
+      arpeggioMultiplier = 1 - pow(ps.arpMod, 2) * 0.9;
     else
-      arpeggioMultiplier = 1 + pow(ps.p_arp_mod, 2) * 10;
-    arpeggioTime = floor(pow(1 - ps.p_arp_speed, 2) * 20000 + 32);
-    if (ps.p_arp_speed === 1)
+      arpeggioMultiplier = 1 + pow(ps.arpMod, 2) * 10;
+    arpeggioTime = floor(pow(1 - ps.arpSpeed, 2) * 20000 + 32);
+    if (ps.arpSpeed === 1)
       arpeggioTime = 0;
   }
 
   initForRepeat();
 
   // Waveform shape
-  var waveShape = parseInt(ps.wave_type);
+  var waveShape = parseInt(ps.shape);
 
   // Filter
-  var fltw = pow(ps.p_lpf_freq, 3) * 0.1;
-  var enableLowPassFilter = (ps.p_lpf_freq != 1);
-  var fltw_d = 1 + ps.p_lpf_ramp * 0.0001;
-  var fltdmp = 5 / (1 + pow(ps.p_lpf_resonance, 2) * 20) * (0.01 + fltw);
+  var fltw = pow(ps.lpf, 3) * 0.1;
+  var enableLowPassFilter = (ps.lpf != 1);
+  var fltw_d = 1 + ps.lpfSweep * 0.0001;
+  var fltdmp = 5 / (1 + pow(ps.lpfResonance, 2) * 20) * (0.01 + fltw);
   if (fltdmp > 0.8)
     fltdmp=0.8;
-  var flthp = pow(ps.p_hpf_freq, 2) * 0.1;
-  var flthp_d = 1 + ps.p_hpf_ramp * 0.0003;
+  var flthp = pow(ps.hpf, 2) * 0.1;
+  var flthp_d = 1 + ps.hpfSweep * 0.0003;
 
   // Vibrato
-  var vibratoSpeed = pow(ps.p_vib_speed, 2) * 0.01;
-  var vibratoAmplitude = ps.p_vib_strength * 0.5;
+  var vibratoSpeed = pow(ps.vibSpeed, 2) * 0.01;
+  var vibratoAmplitude = ps.vibDepth * 0.5;
 
   // Envelope
   var envelopeLength = [
-    floor(ps.p_env_attack * ps.p_env_attack * 100000),
-    floor(ps.p_env_sustain * ps.p_env_sustain * 100000),
-    floor(ps.p_env_decay * ps.p_env_decay * 100000)
+    floor(ps.attack * ps.attack * 100000),
+    floor(ps.sustain * ps.sustain * 100000),
+    floor(ps.decay * ps.decay * 100000)
   ];
-  var envelopePunch = ps.p_env_punch;
+  var envelopePunch = ps.punch;
 
   // Flanger
-  var flangerOffset = pow(ps.p_pha_offset, 2) * 1020;
-  if (ps.p_pha_offset < 0)
+  var flangerOffset = pow(ps.flangerOffset, 2) * 1020;
+  if (ps.flangerOffset < 0)
     flangerOffset = -flangerOffset;
-  var flangerOffsetSlide = pow(ps.p_pha_ramp, 2) * 1;
-  if (ps.p_pha_ramp < 0)
+  var flangerOffsetSlide = pow(ps.flangerSweep, 2) * 1;
+  if (ps.flangerSweep < 0)
     flangerOffsetSlide = -flangerOffsetSlide;
 
   // Repeat
-  var repeatTime = floor(pow(1 - ps.p_repeat_speed, 2) * 20000 + 32);
-  if (ps.p_repeat_speed === 0)
+  var repeatTime = floor(pow(1 - ps.repeatSpeed, 2) * 20000 + 32);
+  if (ps.repeatSpeed === 0)
     repeatTime = 0;
 
-  var gain = pow(2, ps.sound_vol) - 1;
+  var gain = pow(2, ps.vol) - 1;
 
   var fltp = 0;
   var fltdp = 0;

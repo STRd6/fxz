@@ -53,54 +53,54 @@ function Knobs(settings) {
 
 // Translate from UI-friendly settings to human-friendly ones
 Knobs.prototype.translate = function (ps) {
-  this.shape = ps.wave_type;
+  this.shape = ps.shape;
 
-  this.attack = sqr(ps.p_env_attack) * 100000 / 44100;
-  this.sustain = sqr(ps.p_env_sustain) * 100000 / 44100;
-  this.punch = ps.p_env_punch;
-  this.decay = sqr(ps.p_env_decay) * 100000 / 44100;
+  this.attack = sqr(ps.attack) * 100000 / 44100;
+  this.sustain = sqr(ps.sustain) * 100000 / 44100;
+  this.punch = ps.punch;
+  this.decay = sqr(ps.decay) * 100000 / 44100;
 
-  this.frequency = OVERSAMPLING * 441 * (sqr(ps.p_base_freq) + 0.001);
-  if (ps.p_freq_limit > 0)
-    this.frequencyMin = OVERSAMPLING * 441 * (sqr(ps.p_freq_limit) + 0.001);
+  this.frequency = OVERSAMPLING * 441 * (sqr(ps.freq) + 0.001);
+  if (ps.freqLimit > 0)
+    this.frequencyMin = OVERSAMPLING * 441 * (sqr(ps.freqLimit) + 0.001);
   else
     this.frequencyMin = 0;
-  this.enableFrequencyCutoff = (ps.p_freq_limit > 0);
-  this.frequencySlide = 44100 * log(1 - cube(ps.p_freq_ramp) / 100, 0.5);
-  this.frequencySlideSlide = -cube(ps.p_freq_dramp) / 1000000 *
+  this.enableFrequencyCutoff = (ps.freqLimit > 0);
+  this.frequencySlide = 44100 * log(1 - cube(ps.freqSlide) / 100, 0.5);
+  this.frequencySlideSlide = -cube(ps.freqSlideDelta) / 1000000 *
     44100 * pow(2, 44101/44100);
 
-  this.vibratoRate = 44100 * 10 / 64 * sqr(ps.p_vib_speed) / 100;
-  this.vibratoDepth = ps.p_vib_strength / 2;
+  this.vibratoRate = 44100 * 10 / 64 * sqr(ps.vibSpeed) / 100;
+  this.vibratoDepth = ps.vibDepth / 2;
 
-  this.arpeggioFactor = 1 / ((ps.p_arp_mod >= 0) ?
-                             1 - sqr(ps.p_arp_mod) * 0.9 :
-                             1 + sqr(ps.p_arp_mod) * 10);
-  this.arpeggioDelay = ((ps.p_arp_speed === 1) ? 0 :
-                Math.floor(sqr(1 - ps.p_arp_speed) * 20000 + 32) / 44100);
+  this.arpeggioFactor = 1 / ((ps.arpMod >= 0) ?
+                             1 - sqr(ps.arpMod) * 0.9 :
+                             1 + sqr(ps.arpMod) * 10);
+  this.arpeggioDelay = ((ps.arpSpeed === 1) ? 0 :
+                Math.floor(sqr(1 - ps.arpSpeed) * 20000 + 32) / 44100);
 
-  this.dutyCycle = (1 - ps.p_duty) / 2;
-  this.dutyCycleSweep = OVERSAMPLING * 44100 * -ps.p_duty_ramp / 20000;
+  this.dutyCycle = (1 - ps.duty) / 2;
+  this.dutyCycleSweep = OVERSAMPLING * 44100 * -ps.dutySweep / 20000;
 
-  this.retriggerRate = 44100 / ((ps.p_repeat_speed === 0) ? 0 :
-                       Math.floor(sqr(1 - ps.p_repeat_speed) * 20000) + 32);
+  this.retriggerRate = 44100 / ((ps.repeatSpeed === 0) ? 0 :
+                       Math.floor(sqr(1 - ps.repeatSpeed) * 20000) + 32);
 
-  this.flangerOffset = sign(ps.p_pha_offset) *
-    sqr(ps.p_pha_offset) * 1020 / 44100;
-  this.flangerSweep = sign(ps.p_pha_ramp) * sqr(ps.p_pha_ramp);
+  this.flangerOffset = sign(ps.flangerOffset) *
+    sqr(ps.flangerOffset) * 1020 / 44100;
+  this.flangerSweep = sign(ps.flangerSweep) * sqr(ps.flangerSweep);
 
-  this.enableLowPassFilter = (ps.p_lpf_freq != 1);
+  this.enableLowPassFilter = (ps.lpf != 1);
   function flurp(x) { return x / (1-x) }
-  this.lowPassFrequency = ps.p_lpf_freq === 1 ? 44100 :
-    Math.round(OVERSAMPLING * 44100 * flurp(cube(ps.p_lpf_freq) / 10));
-  this.lowPassSweep = pow(1 + ps.p_lpf_ramp / 10000, 44100);
-  this.lowPassResonance = 1 - (5 / (1 + sqr(ps.p_lpf_resonance) * 20)) / 9;
+  this.lowPassFrequency = ps.lpf === 1 ? 44100 :
+    Math.round(OVERSAMPLING * 44100 * flurp(cube(ps.lpf) / 10));
+  this.lowPassSweep = pow(1 + ps.lpfSweep / 10000, 44100);
+  this.lowPassResonance = 1 - (5 / (1 + sqr(ps.lpfResonance) * 20)) / 9;
 
   this.highPassFrequency = Math.round(OVERSAMPLING * 44100 *
-                                      flurp(sqr(ps.p_hpf_freq) / 10));
-  this.highPassSweep = pow(1 + ps.p_hpf_ramp * 0.0003, 44100);
+                                      flurp(sqr(ps.hpf) / 10));
+  this.highPassSweep = pow(1 + ps.hpfSweep * 0.0003, 44100);
 
-  this.gain = 10 * log(sqr(Math.exp(ps.sound_vol) - 1), 10);
+  this.gain = 10 * log(sqr(Math.exp(ps.vol) - 1), 10);
 
   this.sampleRate = ps.sample_rate;
   this.sampleSize = ps.sample_size;
