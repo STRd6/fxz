@@ -1,5 +1,6 @@
 ApplicationTemplate = require "./templates/application"
 
+Mutator = require "./mutator"
 Params = require "./params"
 SoundEffect = require "./sfx"
 
@@ -10,8 +11,7 @@ params = new Params
 audioContext = new AudioContext
 
 createAndPlay = (type) ->
-  params = new Params
-  params[type]()
+  params = Mutator[type](new Params)
 
   # Generate audio data
   audioBuffer = SoundEffect(params, audioContext)
