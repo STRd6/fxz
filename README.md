@@ -43,8 +43,20 @@ SFXZ Binary Format Specification
 | 92     | 4    | float32 | HPF cutoff sweep | [-1,1] |
 | 96     | 4    | float32 | Volume           | [ 0,1] |
 
+Recommended MIME type `application/sfxz`.
+
+Recommended file extension `.sfxz`.
+
 Status
 ------
+
+Currently in beta. I want to review the synth and see if I can adjust the params
+to reduce the amount that create empty or "bad" sounds. Juice the most 
+information out of those bits!
+
+I also want to investigate using the full float32 range or expanding the 
+recommended range and see what impact that will have, but I need to learn more 
+about how the synth operates to be sure.
 
 Glossary
 ------
