@@ -302,7 +302,7 @@ module.exports = (function() {
     }
 
     // Create buffer
-    var audioBuffer = audioContext.createBuffer(1, buffer.length, sampleRate);
+    var audioBuffer = audioContext.createBuffer(1, buffer.length || 1, sampleRate);
     audioBuffer.getChannelData(0).set(new Float32Array(buffer));
 
     return audioBuffer;
