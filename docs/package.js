@@ -193,7 +193,7 @@
     },
     "pixie.cson": {
       "path": "pixie.cson",
-      "content": "name: \"SFXZ\"\nversion: \"0.3.0\"\nentryPoint: \"sfxz\"\npublish:\n  s3:\n    basePath: \"public/danielx.net\"\n",
+      "content": "name: \"SFXZ\"\nversion: \"0.3.1\"\nentryPoint: \"sfxz\"\npublish:\n  s3:\n    basePath: \"public/danielx.net\"\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -219,7 +219,7 @@
   "distribution": {
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"name\":\"SFXZ\",\"version\":\"0.3.0\",\"entryPoint\":\"sfxz\",\"publish\":{\"s3\":{\"basePath\":\"public/danielx.net\"}}};",
+      "content": "module.exports = {\"name\":\"SFXZ\",\"version\":\"0.3.1\",\"entryPoint\":\"sfxz\",\"publish\":{\"s3\":{\"basePath\":\"public/danielx.net\"}}};",
       "type": "blob"
     },
     "serializer": {
@@ -243,7 +243,7 @@
   },
   "config": {
     "name": "SFXZ",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "entryPoint": "sfxz",
     "publish": {
       "s3": {
@@ -251,7 +251,7 @@
       }
     }
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "entryPoint": "sfxz",
   "repository": {
     "branch": "master",
