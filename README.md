@@ -1,7 +1,8 @@
 SFXZ
 ====
 
-A recreation of sfxr. Wish me luck!
+A recreation of sfxr. Wish me luck! All credit for the synth goes to [Dr. Petter](http://www.drpetter.se/project_sfxr.html),
+I just ported a port and wrote down a binary format :)
 
 
 Goals
@@ -9,6 +10,7 @@ Goals
 
 - [ ] An embeddable synthesizer in < 1kb js (minified and gzipped)
 - [x] A binary format for saving and loading effects in 100 bytes
+- [ ] Synth implementations in common languages (C, C#, Java, Lua, etc.)
 
 SFXZ Binary Format Specification
 ------
@@ -51,11 +53,11 @@ Status
 ------
 
 Currently in beta. I want to review the synth and see if I can adjust the params
-to reduce the amount that create empty or "bad" sounds. Juice the most 
+to reduce the amount that create empty or "bad" sounds. Juice the most
 information out of those bits!
 
-I also want to investigate using the full float32 range or expanding the 
-recommended range and see what impact that will have, but I need to learn more 
+I also want to investigate using the full float32 range or expanding the
+recommended range and see what impact that will have, but I need to learn more
 about how the synth operates to be sure.
 
 Glossary
