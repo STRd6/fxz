@@ -28,7 +28,8 @@
     <div class="pilwrap">
       <a class="pilcrow" href="#section-2">&#182;</a>
     </div>
-    <p>A recreation of sfxr. Wish me luck!</p>
+    <p>A recreation of sfxr. Wish me luck! All credit for the synth goes to <a href="http://www.drpetter.se/project_sfxr.html">Dr. Petter</a>,
+I just ported a port and wrote down a binary format :)</p>
 <h2 id="goals">Goals</h2>
 
   </div>
@@ -44,6 +45,7 @@
     <ul>
 <li>[ ] An embeddable synthesizer in &lt; 1kb js (minified and gzipped)</li>
 <li>[x] A binary format for saving and loading effects in 100 bytes</li>
+<li>[ ] Synth implementations in common languages (C, C#, Java, Lua, etc.)</li>
 </ul>
 <h2 id="sfxz-binary-format-specification">SFXZ Binary Format Specification</h2>
 
@@ -274,10 +276,10 @@
       <a class="pilcrow" href="#section-5">&#182;</a>
     </div>
     <p>Currently in beta. I want to review the synth and see if I can adjust the params
-to reduce the amount that create empty or &quot;bad&quot; sounds. Juice the most 
+to reduce the amount that create empty or &quot;bad&quot; sounds. Juice the most
 information out of those bits!</p>
-<p>I also want to investigate using the full float32 range or expanding the 
-recommended range and see what impact that will have, but I need to learn more 
+<p>I also want to investigate using the full float32 range or expanding the
+recommended range and see what impact that will have, but I need to learn more
 about how the synth operates to be sure.</p>
 <h2 id="glossary">Glossary</h2>
 
