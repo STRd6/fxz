@@ -16,7 +16,7 @@
     <div class="pilwrap">
       <a class="pilcrow" href="#section-1">&#182;</a>
     </div>
-    <h1 id="sfxz">SFXZ</h1>
+    <h1 id="fxz">FXZ</h1>
 
   </div>
   <div class="content"><pre><code>
@@ -47,7 +47,7 @@ I just ported a port and wrote down a binary format :)</p>
 <li>[x] A binary format for saving and loading effects in 100 bytes</li>
 <li>[ ] Synth implementations in common languages (C, C#, Java, Lua, etc.)</li>
 </ul>
-<h2 id="sfxz-binary-format-specification">SFXZ Binary Format Specification</h2>
+<h2 id="fxz-binary-format-specification">FXZ Binary Format Specification</h2>
 
   </div>
   <div class="content"><pre><code>
@@ -59,7 +59,8 @@ I just ported a port and wrote down a binary format :)</p>
     <div class="pilwrap">
       <a class="pilcrow" href="#section-4">&#182;</a>
     </div>
-    <table>
+    <p>FXZ data is 100 bytes long. All multi-byte numeric types are little endian.</p>
+<table>
 <thead>
 <tr>
 <th>Offset</th>
@@ -261,9 +262,9 @@ I just ported a port and wrote down a binary format :)</p>
 </tr>
 </tbody>
 </table>
-<p>Recommended MIME type <code>application/sfxz</code>.</p>
-<p>Recommended file extension <code>.sfxz</code>.</p>
-<h2 id="status">Status</h2>
+<p>Recommended MIME type <code>application/fxz</code>.</p>
+<p>Recommended file extension <code>.fxz</code>.</p>
+<h2 id="fxp-binary-format-specification">FXP Binary Format Specification</h2>
 
   </div>
   <div class="content"><pre><code>
@@ -275,13 +276,64 @@ I just ported a port and wrote down a binary format :)</p>
     <div class="pilwrap">
       <a class="pilcrow" href="#section-5">&#182;</a>
     </div>
-    <p>Currently in beta. I want to review the synth and see if I can adjust the params
-to reduce the amount that create empty or &quot;bad&quot; sounds. Juice the most
-information out of those bits!</p>
-<p>I also want to investigate using the full float32 range or expanding the
-recommended range and see what impact that will have, but I need to learn more
-about how the synth operates to be sure.</p>
-<h2 id="glossary">Glossary</h2>
+    <p>FXP is an FXZ Pack. It can contain up to uint32max entries. The size of the
+pack is <code>8 + 116 * numberOfEntries</code> bytes. It adds 16 byte identifiers to each
+entry so they can be named. If you want them nameless to save those bytes you
+can glob up fxz data, just smash them all together, I don&#39;t think it warrants a
+formal specification.</p>
+<p>All multi-byte numeric types are little endian.</p>
+<table>
+<thead>
+<tr>
+<th>Offset</th>
+<th>Size</th>
+<th>Type</th>
+<th>Field</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>ascii</td>
+<td>Magic Number</td>
+<td>&#39;fxp&#39;</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>uint8</td>
+<td>version</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>uint32</td>
+<td># of entries</td>
+<td>0-4294967295</td>
+</tr>
+<tr>
+<td>*</td>
+<td>16</td>
+<td>ascii</td>
+<td>fxz entry name</td>
+<td></td>
+</tr>
+<tr>
+<td>*+16</td>
+<td>100</td>
+<td>fxz</td>
+<td>fxz entry data</td>
+<td>valid fxz</td>
+</tr>
+</tbody>
+</table>
+<p><code>* = 8 + n * 116</code> where <code>n = [0, 1, ..., numberOfEntries-1]</code></p>
+<p>Recommended MIME type <code>application/fxp</code>.</p>
+<p>Recommended file extension <code>.fxp</code>.</p>
+<h2 id="status">Status</h2>
 
   </div>
   <div class="content"><pre><code>
@@ -292,6 +344,26 @@ about how the synth operates to be sure.</p>
   <div class="annotation">
     <div class="pilwrap">
       <a class="pilcrow" href="#section-6">&#182;</a>
+    </div>
+    <p>Currently in beta. I want to review the synth and see if I can adjust the params
+to reduce the amount that create empty or &quot;bad&quot; sounds. Juice the most
+information out of those bits!</p>
+<p>I also want to investigate using the full float32 range or expanding the
+recommended range and see what impact that will have, but I need to learn more
+about how the synth operates to be sure. This could also involve humanizing the
+units somewhat but it will require learning a lot more about the internals of
+the synthesis.</p>
+<h2 id="glossary">Glossary</h2>
+
+  </div>
+  <div class="content"><pre><code>
+</code></pre>
+</div>
+</li>
+<li id="section-7">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-7">&#182;</a>
     </div>
     <ul>
 <li>freq: frequency</li>
