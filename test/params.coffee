@@ -1,6 +1,6 @@
-global.SFXZ = require "../sfxz"
+global.FXZ = require "../fxz"
 
-console.log SFXZ
+console.log FXZ
 
 equalEnough = (a, b, precision=5) ->
   console.log "equalEnough", a, b
@@ -8,16 +8,16 @@ equalEnough = (a, b, precision=5) ->
 
 rand = Math.random
 
-describe "SFXZ", ->
+describe "FXZ", ->
   it "should expose Params", ->
-    assert SFXZ.Params
+    assert FXZ.Params
 
   it "should expose Serializer", ->
-    assert SFXZ.Serializer
+    assert FXZ.Serializer
 
   describe "Serialization", ->
     it "should serialize and deserialize", ->
-      {Params, Serializer} = SFXZ
+      {Params, Serializer} = FXZ
       {serialize, deserialize} = Serializer
 
       p1 = new Params

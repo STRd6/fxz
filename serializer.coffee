@@ -9,7 +9,7 @@ module.exports =
     Object.keys(params).forEach (key, i) ->
       param = params[key]
       if i is 0
-        # 4 byte sfxz header
+        # 4 byte fxz header
         "fxz".split("").forEach (s, n) ->
           dataView.setUint8(n, s.charCodeAt(0))
         # version
@@ -28,7 +28,7 @@ module.exports =
 
     Object.keys(params).forEach (key, i) ->
       if i is 0
-        # 4 byte sfxz header
+        # 4 byte fxz header
         "fxz".split("").forEach (s, n) ->
           charCode = s.charCodeAt(0)
           if charCode != dataView.getUint8(n)

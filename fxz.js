@@ -47,7 +47,7 @@ module.exports = (function() {
     this.vol = 0.5;
   }
 
-  function SFXZ(ps, audioContext) {
+  function FXZ(ps, audioContext) {
     // Handle binary format
     if (ps instanceof ArrayBuffer) {
       ps = Serializer.deserialize(ps, new Params());
@@ -308,8 +308,8 @@ module.exports = (function() {
     return audioBuffer;
   };
 
-  var Serializer = SFXZ.Serializer = require("./serializer");
-  SFXZ.Params = Params;
+  var Serializer = FXZ.Serializer = require("./serializer");
+  FXZ.Params = Params;
 
-  return SFXZ;
+  return FXZ;
 })();

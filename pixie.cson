@@ -1,6 +1,6 @@
-name: "SFXZ"
-version: "0.3.1"
-entryPoint: "sfxz"
+name: "FXZ"
+version: "0.3.2"
+entryPoint: "fxz"
 publish:
   s3:
     basePath: "public/danielx.net"

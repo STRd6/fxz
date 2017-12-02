@@ -1,9 +1,8 @@
-SFXZ
-====
+FXZ
+===
 
 A recreation of sfxr. Wish me luck! All credit for the synth goes to [Dr. Petter](http://www.drpetter.se/project_sfxr.html),
 I just ported a port and wrote down a binary format :)
-
 
 Goals
 -----
@@ -12,8 +11,10 @@ Goals
 - [x] A binary format for saving and loading effects in 100 bytes
 - [ ] Synth implementations in common languages (C, C#, Java, Lua, etc.)
 
-SFXZ Binary Format Specification
-------
+FXZ Binary Format Specification
+-------------------------------
+
+FXZ data is 100 bytes long. All multi-byte numeric types are little endian.
 
 | Offset | Size | Type    | Field            | Range  |
 |--------|------|---------|------------------|--------|
@@ -45,9 +46,34 @@ SFXZ Binary Format Specification
 | 92     | 4    | float32 | HPF cutoff sweep | [-1,1] |
 | 96     | 4    | float32 | Volume           | [ 0,1] |
 
-Recommended MIME type `application/sfxz`.
+Recommended MIME type `application/fxz`.
 
-Recommended file extension `.sfxz`.
+Recommended file extension `.fxz`.
+
+FXP Binary Format Specification
+-------------------------------
+
+FXP is an FXZ Pack. It can contain up to uint32max entries. The size of the
+pack is `8 + 116 * numberOfEntries` bytes. It adds 16 byte identifiers to each
+entry so they can be named. If you want them nameless to save those bytes you
+can glob up fxz data, just smash them all together, I don't think it warrants a
+formal specification.
+
+All multi-byte numeric types are little endian.
+
+| Offset | Size | Type    | Field            | Range        |
+|--------|------|---------|------------------|--------------|
+|  0     | 3    | ascii   | Magic Number     | 'fxp'        |
+|  3     | 1    | uint8   | version          | 1            |
+|  4     | 4    | uint32  | # of entries     | 0-4294967295 |
+|  *     | 16   | ascii   | fxz entry name   |              |
+|  *+16  | 100  | fxz     | fxz entry data   | valid fxz    |
+
+`* = 8 + n * 116` where `n = [0, 1, ..., numberOfEntries-1]`
+
+Recommended MIME type `application/fxp`.
+
+Recommended file extension `.fxp`.
 
 Status
 ------
@@ -58,7 +84,9 @@ information out of those bits!
 
 I also want to investigate using the full float32 range or expanding the
 recommended range and see what impact that will have, but I need to learn more
-about how the synth operates to be sure.
+about how the synth operates to be sure. This could also involve humanizing the
+units somewhat but it will require learning a lot more about the internals of
+the synthesis.
 
 Glossary
 ------
