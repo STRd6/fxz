@@ -50,10 +50,10 @@ Recommended MIME type `application/fxz`.
 
 Recommended file extension `.fxz`.
 
-FXP Binary Format Specification
+FXX Binary Format Specification
 -------------------------------
 
-FXP is an FXZ Pack. It can contain up to uint32max entries. The size of the
+FXX is an FXZ Pack. It can contain up to uint32max entries. The size of the
 pack is `8 + 116 * numberOfEntries` bytes. It adds 16 byte identifiers to each
 entry so they can be named. If you want them nameless to save those bytes you
 can glob up fxz data, just smash them all together, I don't think it warrants a
@@ -63,7 +63,7 @@ All multi-byte numeric types are little endian.
 
 | Offset | Size | Type    | Field            | Range        |
 |--------|------|---------|------------------|--------------|
-|  0     | 3    | ascii   | Magic Number     | 'fxp'        |
+|  0     | 3    | ascii   | Magic Number     | 'fxx'        |
 |  3     | 1    | uint8   | version          | 1            |
 |  4     | 4    | uint32  | # of entries     | 0-4294967295 |
 |  *     | 16   | ascii   | fxz entry name   |              |
@@ -71,9 +71,9 @@ All multi-byte numeric types are little endian.
 
 `* = 8 + n * 116` where `n = [0, 1, ..., numberOfEntries-1]`
 
-Recommended MIME type `application/fxp`.
+Recommended MIME type `application/fxx`.
 
-Recommended file extension `.fxp`.
+Recommended file extension `.fxx`.
 
 Status
 ------
@@ -89,7 +89,7 @@ units somewhat but it will require learning a lot more about the internals of
 the synthesis.
 
 Glossary
-------
+--------
 
 - freq: frequency
 - LPF: Low pass filter
