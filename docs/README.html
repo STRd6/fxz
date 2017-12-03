@@ -264,7 +264,7 @@ I just ported a port and wrote down a binary format :)</p>
 </table>
 <p>Recommended MIME type <code>application/fxz</code>.</p>
 <p>Recommended file extension <code>.fxz</code>.</p>
-<h2 id="fxp-binary-format-specification">FXP Binary Format Specification</h2>
+<h2 id="fxx-binary-format-specification">FXX Binary Format Specification</h2>
 
   </div>
   <div class="content"><pre><code>
@@ -276,7 +276,7 @@ I just ported a port and wrote down a binary format :)</p>
     <div class="pilwrap">
       <a class="pilcrow" href="#section-5">&#182;</a>
     </div>
-    <p>FXP is an FXZ Pack. It can contain up to uint32max entries. The size of the
+    <p>FXX is an FXZ Pack. It can contain up to uint32max entries. The size of the
 pack is <code>8 + 116 * numberOfEntries</code> bytes. It adds 16 byte identifiers to each
 entry so they can be named. If you want them nameless to save those bytes you
 can glob up fxz data, just smash them all together, I don&#39;t think it warrants a
@@ -298,7 +298,7 @@ formal specification.</p>
 <td>3</td>
 <td>ascii</td>
 <td>Magic Number</td>
-<td>&#39;fxp&#39;</td>
+<td>&#39;fxx&#39;</td>
 </tr>
 <tr>
 <td>3</td>
@@ -331,8 +331,8 @@ formal specification.</p>
 </tbody>
 </table>
 <p><code>* = 8 + n * 116</code> where <code>n = [0, 1, ..., numberOfEntries-1]</code></p>
-<p>Recommended MIME type <code>application/fxp</code>.</p>
-<p>Recommended file extension <code>.fxp</code>.</p>
+<p>Recommended MIME type <code>application/fxx</code>.</p>
+<p>Recommended file extension <code>.fxx</code>.</p>
 <h2 id="status">Status</h2>
 
   </div>
