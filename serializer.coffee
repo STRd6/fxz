@@ -1,5 +1,3 @@
-VERSION = 1
-
 module.exports =
   serialize: (params) ->
     buffer = new ArrayBuffer(100)
@@ -13,7 +11,7 @@ module.exports =
         "fxz".split("").forEach (s, n) ->
           dataView.setUint8(n, s.charCodeAt(0))
         # version
-        dataView.setUint8(3, VERSION)
+        dataView.setUint8(3, 1)
         # byte 4 shape
         dataView.setUint8(4, param)
         # bytes 5, 6, 7 unused for now
@@ -35,7 +33,7 @@ module.exports =
             throw new Error "Unknown file format: expected '#{s}' (#{charCode}) at byte #{n}"
         # version
         version = dataView.getUint8(3)
-        if version != VERSION
+        if version != 1
           throw new Error "Unknown version '#{version}': expected 1"
         # byte 4 shape
         params[key] = dataView.getUint8(4)
